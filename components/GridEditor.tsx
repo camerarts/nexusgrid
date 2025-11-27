@@ -271,7 +271,7 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
   const previewFileName = `${customPrefix}${originalName}${customSuffix}_1.${exportFormat}`;
 
   return (
-    <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-6 animate-fade-in overflow-hidden ${
+    <div className={`fixed inset-0 z-[100] flex items-center justify-center px-4 pb-4 pt-20 lg:px-6 lg:pb-6 lg:pt-24 animate-fade-in overflow-hidden ${
         theme === 'dark' ? 'bg-[#0f172a]/95' : 'bg-[#f1f5f9]/95'
     }`}>
         
