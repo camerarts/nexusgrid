@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Download, Check, RotateCcw, FileImage, LayoutTemplate, Sparkles, X } from 'lucide-react';
 import { ProcessedImage, formatBytes } from '../utils/imageProcessor';
