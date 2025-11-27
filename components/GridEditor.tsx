@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { LayoutGrid, Move, Download, CheckSquare, Upload, RefreshCw, Minus, Plus, Maximize, FileText, ZoomIn } from 'lucide-react';
 import JSZip from 'jszip';
@@ -187,8 +186,9 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
     const zip = new JSZip();
     const folder = zip.folder("grid_slices");
     
-    const fileNameBase = customPrefix || file.name.replace(/\.[^/.]+$/, "");
-    const suffix = customSuffix || '';
+    // Construct filename using original name + user inputs
+    const originalName = file.name.replace(/\.[^/.]+$/, "");
+    const fileNameBase = `${customPrefix}${originalName}${customSuffix}`;
 
     const drawW = cropRect.width * scaleGlobal * scaleX;
     const drawH = cropRect.height * scaleGlobal * scaleY;
@@ -227,7 +227,8 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
             
             if (blob) {
                 const idx = r * cols + c + 1;
-                folder?.file(`${fileNameBase}_${idx}${suffix}.${exportFormat}`, blob);
+                // Use the constructed base name
+                folder?.file(`${fileNameBase}_${idx}.${exportFormat}`, blob);
             }
         }
     }
@@ -265,10 +266,12 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
     </div>
   );
 
-  const previewFileName = `${customPrefix || 'filename'}_1${customSuffix}.${exportFormat}`;
+  // Preview filename construction
+  const originalName = file.name.replace(/\.[^/.]+$/, "");
+  const previewFileName = `${customPrefix}${originalName}${customSuffix}_1.${exportFormat}`;
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 lg:p-6 animate-fade-in overflow-hidden ${
+    <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 lg:p-6 animate-fade-in overflow-hidden ${
         theme === 'dark' ? 'bg-[#0f172a]/95' : 'bg-[#f1f5f9]/95'
     }`}>
         
@@ -387,36 +390,36 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
                     </div>
                     
                     <div className="space-y-2">
-                        {/* Prefix */}
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] text-slate-500 font-medium">{t.gePrefixLabel}</label>
-                            <input 
-                                type="text" 
-                                placeholder={t.gePrefixPlaceholder}
-                                value={customPrefix}
-                                onChange={(e) => setCustomPrefix(e.target.value)}
-                                className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
-                                    theme === 'dark' 
-                                        ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
-                                        : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
-                                }`}
-                            />
-                        </div>
-
-                        {/* Suffix */}
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] text-slate-500 font-medium">{t.geSuffixLabel}</label>
-                            <input 
-                                type="text" 
-                                placeholder={t.geSuffixPlaceholder}
-                                value={customSuffix}
-                                onChange={(e) => setCustomSuffix(e.target.value)}
-                                className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
-                                    theme === 'dark' 
-                                        ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
-                                        : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
-                                }`}
-                            />
+                        {/* Prefix & Suffix Row */}
+                        <div className="grid grid-cols-2 gap-2">
+                            <div className="flex flex-col gap-1">
+                                <label className="text-[10px] text-slate-500 font-medium truncate" title={t.gePrefixLabel}>{t.gePrefixLabel}</label>
+                                <input 
+                                    type="text" 
+                                    placeholder={t.gePrefixPlaceholder}
+                                    value={customPrefix}
+                                    onChange={(e) => setCustomPrefix(e.target.value)}
+                                    className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
+                                        theme === 'dark' 
+                                            ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
+                                            : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
+                                    }`}
+                                />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <label className="text-[10px] text-slate-500 font-medium truncate" title={t.geSuffixLabel}>{t.geSuffixLabel}</label>
+                                <input 
+                                    type="text" 
+                                    placeholder={t.geSuffixPlaceholder}
+                                    value={customSuffix}
+                                    onChange={(e) => setCustomSuffix(e.target.value)}
+                                    className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
+                                        theme === 'dark' 
+                                            ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
+                                            : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
+                                    }`}
+                                />
+                            </div>
                         </div>
 
                         {/* Format */}
