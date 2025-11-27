@@ -1,14 +1,10 @@
 
-export type Language = 'zh-CN' | 'en-US' | 'ja-JP' | 'ko-KR' | 'es-ES' | 'fr-FR' | 'de-DE';
+
+export type Language = 'zh-CN' | 'en-US';
 
 export const languages: { code: Language; label: string; flag: string }[] = [
   { code: 'zh-CN', label: '简体中文', flag: '🇨🇳' },
   { code: 'en-US', label: 'English', flag: '🇺🇸' },
-  { code: 'ja-JP', label: '日本語', flag: '🇯🇵' },
-  { code: 'ko-KR', label: '한국어', flag: '🇰🇷' },
-  { code: 'es-ES', label: 'Español', flag: '🇪🇸' },
-  { code: 'fr-FR', label: 'Français', flag: '🇫🇷' },
-  { code: 'de-DE', label: 'Deutsch', flag: '🇩🇪' },
 ];
 
 export const translations = {
@@ -80,6 +76,10 @@ export const translations = {
     
     alertError: '处理图片时出错，请重试。',
     alertType: '请上传图片文件',
+    
+    // Stats
+    completed: '已完成',
+    converted: '次转换',
   },
   'en-US': {
     title: 'Grid Splitter - Smart Grid Slicer',
@@ -145,5 +145,9 @@ export const translations = {
     
     alertError: 'Error processing image, please try again.',
     alertType: 'Please upload an image file',
+    
+    // Stats
+    completed: 'Completed',
+    converted: 'Conversions',
   }
 };
