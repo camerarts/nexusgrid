@@ -1,0 +1,5 @@
+{
+  "name": "宫格切图工具",
+  "description": "在线宫格切图工具，支持将图片分割为3、4、6、9宫格，朋友圈配图神器。",
+  "requestFramePermissions": []
+}
