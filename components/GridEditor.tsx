@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { LayoutGrid, Move, Download, CheckSquare, Upload, RefreshCw, Minus, Plus, Maximize, FileText, ZoomIn } from 'lucide-react';
+import { LayoutGrid, Move, Download, CheckSquare, Upload, RefreshCw, Minus, Plus, Maximize, FileText, ZoomIn, X } from 'lucide-react';
 import JSZip from 'jszip';
 import saveAs from 'file-saver';
 
@@ -285,7 +285,19 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
                 <div className={`h-12 border-b px-4 flex items-center justify-between shrink-0 ${
                     theme === 'dark' ? 'border-white/5' : 'border-slate-100'
                 }`}>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
+                        <button 
+                            onClick={onCancel}
+                            className={`p-1.5 rounded-md transition-colors ${
+                                theme === 'dark' 
+                                    ? 'hover:bg-white/10 text-slate-400 hover:text-white' 
+                                    : 'hover:bg-slate-100 text-slate-500 hover:text-slate-900'
+                            }`}
+                            title="Close"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                        <div className={`h-4 w-px ${theme === 'dark' ? 'bg-white/10' : 'bg-slate-200'}`}></div>
                         <span className={`text-sm font-medium ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>{t.geTitle}</span>
                     </div>
                     <div className="flex items-center gap-3">
