@@ -337,17 +337,17 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
                 </div>
             </div>
 
-            {/* Right: Settings Sidebar (COMPACT) */}
+            {/* Right: Settings Sidebar (DISTRIBUTED) */}
             <div 
-              className="w-full lg:w-72 flex flex-col gap-2 shrink-0 overflow-y-auto pb-2 custom-scrollbar"
+              className="w-full lg:w-72 flex flex-col shrink-0 overflow-y-auto pb-2 custom-scrollbar h-full justify-between"
               style={{ scrollbarWidth: 'none' }} // Firefox: Hide scrollbar
             >
                 <style>{`
                   .custom-scrollbar::-webkit-scrollbar { display: none; } /* Chrome/Safari: Hide scrollbar */
                 `}</style>
 
-                {/* Section 1: Grid Layout */}
-                <div className={`rounded-xl p-3 shadow-sm border ${
+                {/* Section 1: Grid Layout (TOP) */}
+                <div className={`rounded-xl p-3 shadow-sm border mb-2 ${
                     theme === 'dark' ? 'bg-[#1A1F2E] border-white/10' : 'bg-white border-slate-200'
                 }`}>
                     <div className={`flex items-center gap-2 mb-3 font-semibold text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
@@ -372,8 +372,8 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
                     </div>
                 </div>
 
-                {/* Section 2: Adjust */}
-                <div className={`rounded-xl p-3 shadow-sm border ${
+                {/* Section 2: Adjust (MIDDLE) */}
+                <div className={`rounded-xl p-3 shadow-sm border mb-2 ${
                     theme === 'dark' ? 'bg-[#1A1F2E] border-white/10' : 'bg-white border-slate-200'
                 }`}>
                     <div className="flex items-center justify-between mb-3">
@@ -392,88 +392,90 @@ const GridEditor: React.FC<GridEditorProps> = ({ file, onCancel, t, theme }) => 
                     </div>
                 </div>
 
-                {/* Section 3: Export */}
-                <div className={`rounded-xl p-3 shadow-sm border ${
-                    theme === 'dark' ? 'bg-[#1A1F2E] border-white/10' : 'bg-white border-slate-200'
-                }`}>
-                    <div className={`flex items-center gap-2 mb-3 font-semibold text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
-                        <FileText className="w-3.5 h-3.5" />
-                        <span>{t.geExportTitle}</span>
-                    </div>
-                    
-                    <div className="space-y-2">
-                        {/* Prefix & Suffix Row */}
-                        <div className="grid grid-cols-2 gap-2">
-                            <div className="flex flex-col gap-1">
-                                <label className="text-[10px] text-slate-500 font-medium truncate" title={t.gePrefixLabel}>{t.gePrefixLabel}</label>
-                                <input 
-                                    type="text" 
-                                    placeholder={t.gePrefixPlaceholder}
-                                    value={customPrefix}
-                                    onChange={(e) => setCustomPrefix(e.target.value)}
-                                    className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
-                                        theme === 'dark' 
-                                            ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
-                                            : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
-                                    }`}
-                                />
-                            </div>
-                            <div className="flex flex-col gap-1">
-                                <label className="text-[10px] text-slate-500 font-medium truncate" title={t.geSuffixLabel}>{t.geSuffixLabel}</label>
-                                <input 
-                                    type="text" 
-                                    placeholder={t.geSuffixPlaceholder}
-                                    value={customSuffix}
-                                    onChange={(e) => setCustomSuffix(e.target.value)}
-                                    className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
-                                        theme === 'dark' 
-                                            ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
-                                            : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
-                                    }`}
-                                />
-                            </div>
+                {/* Section 3: Export + Download (BOTTOM) */}
+                <div className="flex flex-col gap-2">
+                    <div className={`rounded-xl p-3 shadow-sm border ${
+                        theme === 'dark' ? 'bg-[#1A1F2E] border-white/10' : 'bg-white border-slate-200'
+                    }`}>
+                        <div className={`flex items-center gap-2 mb-3 font-semibold text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>{t.geExportTitle}</span>
                         </div>
-
-                        {/* Format */}
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] text-slate-500 font-medium">{t.geFormatLabel}</label>
-                            <div className={`flex p-0.5 rounded-lg ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-100'}`}>
-                                {(['png', 'jpg', 'webp'] as ExportFormat[]).map((fmt) => (
-                                    <button
-                                        key={fmt}
-                                        onClick={() => setExportFormat(fmt)}
-                                        className={`flex-1 py-1 text-[10px] font-bold uppercase rounded transition-all ${
-                                            exportFormat === fmt
-                                                ? (theme === 'dark' ? 'bg-white/10 text-white shadow-sm' : 'bg-white text-indigo-600 shadow-sm')
-                                                : (theme === 'dark' ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600')
+                        
+                        <div className="space-y-2">
+                            {/* Prefix & Suffix Row */}
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-[10px] text-slate-500 font-medium truncate" title={t.gePrefixLabel}>{t.gePrefixLabel}</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder={t.gePrefixPlaceholder}
+                                        value={customPrefix}
+                                        onChange={(e) => setCustomPrefix(e.target.value)}
+                                        className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
+                                            theme === 'dark' 
+                                                ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
+                                                : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
                                         }`}
-                                    >
-                                        {fmt}
-                                    </button>
-                                ))}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-[10px] text-slate-500 font-medium truncate" title={t.geSuffixLabel}>{t.geSuffixLabel}</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder={t.geSuffixPlaceholder}
+                                        value={customSuffix}
+                                        onChange={(e) => setCustomSuffix(e.target.value)}
+                                        className={`w-full px-2 py-1.5 rounded-lg text-xs outline-none focus:ring-1 focus:ring-indigo-500/50 transition-all ${
+                                            theme === 'dark' 
+                                                ? 'bg-white/5 border border-white/10 text-white placeholder:text-slate-600' 
+                                                : 'bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400'
+                                        }`}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Format */}
+                            <div className="flex flex-col gap-1">
+                                <label className="text-[10px] text-slate-500 font-medium">{t.geFormatLabel}</label>
+                                <div className={`flex p-0.5 rounded-lg ${theme === 'dark' ? 'bg-white/5' : 'bg-slate-100'}`}>
+                                    {(['png', 'jpg', 'webp'] as ExportFormat[]).map((fmt) => (
+                                        <button
+                                            key={fmt}
+                                            onClick={() => setExportFormat(fmt)}
+                                            className={`flex-1 py-1 text-[10px] font-bold uppercase rounded transition-all ${
+                                                exportFormat === fmt
+                                                    ? (theme === 'dark' ? 'bg-white/10 text-white shadow-sm' : 'bg-white text-indigo-600 shadow-sm')
+                                                    : (theme === 'dark' ? 'text-slate-500 hover:text-slate-300' : 'text-slate-400 hover:text-slate-600')
+                                            }`}
+                                        >
+                                            {fmt}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Preview */}
+                            <div className={`p-2 rounded-lg text-[10px] border ${
+                                theme === 'dark' ? 'bg-black/20 border-white/5' : 'bg-slate-50 border-slate-100'
+                            }`}>
+                                <span className="text-slate-500 block mb-0.5">{t.gePreviewLabel}:</span>
+                                <span className={`font-mono break-all ${theme === 'dark' ? 'text-indigo-300' : 'text-indigo-600'}`}>
+                                    {previewFileName}
+                                </span>
                             </div>
                         </div>
-
-                        {/* Preview */}
-                        <div className={`p-2 rounded-lg text-[10px] border ${
-                            theme === 'dark' ? 'bg-black/20 border-white/5' : 'bg-slate-50 border-slate-100'
-                        }`}>
-                            <span className="text-slate-500 block mb-0.5">{t.gePreviewLabel}:</span>
-                            <span className={`font-mono break-all ${theme === 'dark' ? 'text-indigo-300' : 'text-indigo-600'}`}>
-                                {previewFileName}
-                            </span>
-                        </div>
                     </div>
-                </div>
 
-                {/* Download Action */}
-                <button 
-                    onClick={handleDownload}
-                    className="w-full py-3 rounded-xl bg-[#18181b] hover:bg-black text-white font-bold shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 mt-auto text-sm"
-                >
-                    <Download className="w-4 h-4" />
-                    <span>{t.geDownloadZip} ({rows * cols})</span>
-                </button>
+                    {/* Download Action */}
+                    <button 
+                        onClick={handleDownload}
+                        className="w-full py-3 rounded-xl bg-[#18181b] hover:bg-black text-white font-bold shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95 text-sm"
+                    >
+                        <Download className="w-4 h-4" />
+                        <span>{t.geDownloadZip} ({rows * cols})</span>
+                    </button>
+                </div>
 
             </div>
         </div>
